@@ -12,7 +12,7 @@ class AdvisorService:
     def get_by_id(advisor_id):
         advisor = Advisors.query.filter_by(id=advisor_id).first()
         if not advisor:
-            raise NotFound(f"Student with id {advisor_id} not found")
+            raise NotFound(f"Advisor with id {advisor_id} not found")
         return advisor
 
     @staticmethod
@@ -32,7 +32,7 @@ class AdvisorService:
     def delete_by_id(advisor_id):
         advisor = Advisors.query.filter_by(id=advisor_id).first()
         if not advisor:
-            return {"error": f"student not found by id: {advisor_id}"}
+            return {"error": f"advisor not found by id: {advisor_id}"}
 
         db.session.delete(advisor)
         db.session.commit()

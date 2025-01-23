@@ -4,16 +4,11 @@ from werkzeug.exceptions import NotFound
 
 class StudentCourseSelectionService:
     @staticmethod
-    def get_all():
-        studentCourseSelectionList = StudentCourseSelection.query.all()
-        return studentCourseSelectionList
-
-    @staticmethod
-    def get_by_id(studentCourseSelection_id):
-        studentCourseSelection = StudentCourseSelection.query.filter_by(id=studentCourseSelection_id).first()
-        if not studentCourseSelection:
-            raise NotFound(f"Student with id {studentCourseSelection_id} not found")
-        return studentCourseSelection
+    def get_by_id(selection_id):
+        selection = StudentCourseSelection.query.filter_by(id=selection_id).first()
+        if not selection:
+            raise NotFound(f"Selection with id {selection_id} not found")
+        return selection
 
     @staticmethod
     def get_by_student_id(student_id):
@@ -24,15 +19,48 @@ class StudentCourseSelectionService:
 
     @staticmethod
     def get_by_course_id(course_id):
-        studentCourses = StudentCourseSelection.query.filter(StudentCourseSelection.courseId == course_id).all()
-        if not studentCourses:
-            raise NotFound(f"Student with id {course_id} not found")
-        return studentCourses
+        courseStudents = StudentCourseSelection.query.filter(StudentCourseSelection.courseId == course_id).all()
+        if not courseStudents:
+            raise NotFound(f"Course with id {course_id} not found")
+        return courseStudents
 
     @staticmethod
-    def get_courses_by_approval_status(is_approved):
-        courses = StudentCourseSelection.query.filter(StudentCourseSelection.isApproved == is_approved).all()
-        if not courses:
-            status = "approved" if is_approved else "not approved"
-            raise NotFound(f"No {status} courses found.")
-        return courses
+    def add_selection(data):
+        selection = StudentCourseSelection(
+            studentId=data.get('StudentID'),
+            courseId=data.get('CourseID')
+        )
+
+        db.session.add(selection)
+        db.session.commit()
+
+        return selection
+
+    @staticmethod
+    def delete_by_selection_id(selection_id):
+        selection = StudentCourseSelection.query.filter_by(id=selection_id).first()
+
+        if not selection:
+            return {"error": f"Selection not found by id: {selection_id}"}
+
+        db.session.delete(selection)
+        db.session.commit()
+
+        return {"message": "delete successful"}
+
+    @staticmethod
+    def update_approve(data):
+        selection = StudentCourseSelection.query.filter_by(
+            studentId=data.get('StudentId'),
+            courserId=data.get('CourseId')
+        )
+
+        if not selection:
+            return {"error": f"Selection not found"}
+
+        new_approve = data.get('isApproved')
+        selection.isApproved = new_approve
+
+        db.session.commit()
+
+        return {"message": f"Course approved has been set. New value: {new_approve}"}

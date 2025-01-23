@@ -4,13 +4,10 @@ from werkzeug.exceptions import NotFound
 
 class TranscriptService:
     @staticmethod
-    def get_all():
-        transcript = Transcript.query.all()
+    def get_by_student_id(student_id):
+        transcript = Transcript.query.filter(Transcript.studentId == student_id).all()
+        if not transcript:
+            raise NotFound(f"Student with id {student_id} not found")
         return transcript
 
-    @staticmethod
-    def get_by_student_id(student_id):
-        studentTranscript = Transcript.query.filter(Transcript.studentId == student_id).all()
-        if not studentTranscript:
-            raise NotFound(f"Student with id {student_id} not found")
-        return studentTranscript
+    # ADD TRANSCRIPT EKLENİCEK

@@ -12,15 +12,8 @@ class CourseService:
     def get_by_id(course_id):
         course = Course.query.filter_by(id = course_id).first()
         if not course:
-            raise NotFound(f"Student with id {course_id} not found")
+            raise NotFound(f"Course with id {course_id} not found")
         return course
-
-    @staticmethod
-    def get_by_credit(course_credit):
-        courses = Course.query.filter(Course.credit == course_credit).all()
-        if not courses:
-            raise NotFound(f"No courses found with credit {course_credit}")
-        return courses
 
     @staticmethod
     def get_by_course_code(course_code):
@@ -28,3 +21,28 @@ class CourseService:
         if not course:
             raise NotFound(f"Course with code '{course_code}' not found")
         return course
+
+    @staticmethod
+    def add(data):
+        course = Course(
+            courseCode=data.get('CourseCode'),
+            courseName=data.get('courseName'),
+            isMandatory=data.get('IsMandatory'),
+            credit=data.get('Credit'),
+            department = data.get('Department')
+        )
+        db.session.add(course)
+        db.session.commit()
+
+        return course
+
+    @staticmethod
+    def delete_by_id(course_id):
+        course = Course.query.filter_by(id=course_id).first()
+        if not course:
+            return {"error": f"course not found by id: {course_id}"}
+
+        db.session.delete(course)
+        db.session.commit()
+
+        return {"message": "delete successful"}
