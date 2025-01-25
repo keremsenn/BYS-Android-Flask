@@ -1,16 +1,20 @@
-from ..model.advisor import Advisors
+from ..model.advisor import Advisors,AdvisorSchema
 from .. import db
 from werkzeug.exceptions import NotFound
 
 class AdvisorService:
     @staticmethod
     def get_all():
-        advisors = Advisors.query.all()
-        return advisors
+        advisors_query = Advisors.query.all()
+        schema = AdvisorSchema(many = True)
+        advisor = schema.dump(advisors_query)
+        return advisor
 
     @staticmethod
     def get_by_id(advisor_id):
-        advisor = Advisors.query.filter_by(id=advisor_id).first()
+        advisor_query = Advisors.query.filter_by(id=advisor_id).first()
+        schema = AdvisorSchema()
+        advisor = schema.dump(advisor_query)
         if not advisor:
             raise NotFound(f"Advisor with id {advisor_id} not found")
         return advisor
@@ -26,7 +30,7 @@ class AdvisorService:
         db.session.add(advisor)
         db.session.commit()
 
-        return advisor
+        return {"message": "added successfully"}
 
     @staticmethod
     def delete_by_id(advisor_id):

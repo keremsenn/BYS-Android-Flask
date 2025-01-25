@@ -6,19 +6,25 @@ from werkzeug.exceptions import NotFound
 class StudentService:
     @staticmethod
     def get_all():
-        students = Student.query.all()
+        students_query = Student.query.all()
+        schema = StudentSchema(many=True)
+        students = schema.dump(students_query)
         return students
 
     @staticmethod
     def get_by_id(student_id):
-        student = Student.query.filter_by(id=student_id).first()
-        if not student:
+        students_query = Student.query.filter_by(id=student_id).first()
+        schema = StudentSchema()
+        if not students_query:
             raise NotFound(f"Student with id {student_id} not found")
+        student = schema.dump(students_query)
         return student
 
     @staticmethod
     def get_by_advisor_id(advisor_id):
-        students = Student.query.filter(advisorId=advisor_id).all()
+        students_query = Student.query.filter_by(advisorId=advisor_id).all()
+        schema = StudentSchema(many=True)
+        students = schema.dump(students_query)
         return students
 
     @staticmethod
@@ -33,7 +39,7 @@ class StudentService:
         db.session.add(student)
         db.session.commit()
 
-        return student
+        return {"message": "add successful"}
 
     @staticmethod
     def delete_by_id(student_id):
