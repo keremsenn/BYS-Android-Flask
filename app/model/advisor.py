@@ -1,4 +1,4 @@
-from .. import db
+from app import db, ma
 
 class Advisors(db.Model):
     __tablename__ = "advisors"
@@ -8,3 +8,7 @@ class Advisors(db.Model):
     title = db.Column("Title", db.String(70), nullable=True)
     department = db.Column("Department", db.String(70), nullable=False)
     email = db.Column("Email", db.String(70), nullable=False)
+
+class AdvisorSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Advisors

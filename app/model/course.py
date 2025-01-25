@@ -1,4 +1,4 @@
-from .. import db
+from app import db, ma
 
 class Course(db.Model):
     __tablename__ = "courses"
@@ -9,3 +9,7 @@ class Course(db.Model):
     isMandatory = db.Column("IsMandatory", db.Boolean, nullable=False, default=False)
     credit = db.Column("Credit", db.Integer, nullable=False)
     department = db.Column("Department", db.String(70), nullable=False)
+
+class CourseSchema(ma.SQLAlchemyAutoSchema):
+    class Meta:
+        model = Course
