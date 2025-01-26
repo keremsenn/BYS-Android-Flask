@@ -7,7 +7,7 @@ class UserStudent(db.Model):
 
     id = db.Column("UserID", db.Integer, primary_key=True, autoincrement=True)
     userName = db.Column("Username", db.String(40), nullable=False)
-    password = db.Column("PasswordHash", db.String(40), nullable=False)
+    password = db.Column("PasswordHash", db.String(120), nullable=False)
     relatedId = db.Column("RelatedID", db.Integer,db.ForeignKey("students.StudentID"), nullable=False)
     email = db.Column("Email", db.String(120), nullable=False)
     createdAt = db.Column("CreatedAt", db.DateTime, default=db.func.now(), nullable=False)
