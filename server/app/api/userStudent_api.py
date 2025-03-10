@@ -9,7 +9,7 @@ def register():
     return jsonify(UserStudentService.register(data)), 200
 
 
-@user_student_bp.route("/login")
+@user_student_bp.route("/login" ,methods=['POST','GET'])
 def login():
     data = request.get_json()
     return jsonify(UserStudentService.login(data)), 200

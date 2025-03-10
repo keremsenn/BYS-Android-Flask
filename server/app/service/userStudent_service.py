@@ -1,4 +1,4 @@
-from ..model.UserStudent import UserStudent
+from ..model.UserStudent import UserStudent, UserStudentSchema
 from .. import db
 from werkzeug.exceptions import NotFound
 from passlib.hash import argon2
@@ -26,6 +26,7 @@ class UserStudentService:
 
     @staticmethod
     def login(data):
+        user_student_schema = UserStudentSchema()
         email = data.get('email')
         password = data.get('password')
         user = UserStudent.query.filter_by(email=email).first()
@@ -33,6 +34,6 @@ class UserStudentService:
             return {"error": "User not found by email"}
 
         if argon2.verify(password, user.password):
-            return {"user_id": user.id, "email": user.email}
+            return user_student_schema.dump(user)
         else:
             return {"error": "Invalid email or password"}

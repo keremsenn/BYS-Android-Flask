@@ -9,7 +9,8 @@ def register():
     return jsonify(UserAdvisorService.register(data)), 200
 
 
-@user_advisor_bp.route("/login")
+@user_advisor_bp.route("/login",methods=['POST','GET'])
 def login():
+
     data = request.get_json()
     return jsonify(UserAdvisorService.login(data)), 200
