@@ -9,10 +9,10 @@ def get_all():
 
 @course_bp.route("/id")
 def get_by_id():
-    student_id = request.args.get('id')
-    if not student_id:
+    id = request.args.get('id')
+    if not id:
         return jsonify({"error": "Course not found"}), 404
-    return jsonify(CourseService.get_by_id(student_id)) , 200
+    return jsonify(CourseService.get_by_id(id)) , 200
 
 @course_bp.route("/code")
 def get_by_course_code():
