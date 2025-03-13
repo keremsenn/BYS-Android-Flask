@@ -9,6 +9,6 @@ import retrofit2.http.POST
 interface UserStudentApi {
 
     @POST("user-student/login")
-    suspend fun login(@Body loginRequest: LoginRequest): UserStudent
+    suspend fun login(@Body loginRequest: LoginRequest): UserStudent?
 
 }

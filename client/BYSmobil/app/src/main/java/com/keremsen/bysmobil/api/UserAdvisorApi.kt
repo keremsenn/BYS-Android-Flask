@@ -7,5 +7,5 @@ import retrofit2.http.POST
 
 interface UserAdvisorApi {
     @POST("user-advisor/login")
-    suspend fun Advisorlogin(@Body loginRequest: LoginRequest):UserAdvisor
+    suspend fun Advisorlogin(@Body loginRequest: LoginRequest):UserAdvisor?
 }

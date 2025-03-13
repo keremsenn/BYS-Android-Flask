@@ -10,7 +10,7 @@ class UserAdvisorRepository @Inject constructor(
     private val userAdvisorApi: UserAdvisorApi,
     private  val context: Context
 ){
-    suspend fun AdvisorLogin(loginRequest: LoginRequest):UserAdvisor{
+    suspend fun AdvisorLogin(loginRequest: LoginRequest):UserAdvisor? {
         return userAdvisorApi.Advisorlogin(loginRequest)
     }
 }
