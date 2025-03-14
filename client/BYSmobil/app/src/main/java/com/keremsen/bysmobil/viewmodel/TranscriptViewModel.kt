@@ -15,13 +15,15 @@ import javax.inject.Inject
 class TranscriptViewModel @Inject constructor(
     private val transcriptRepository: TranscriptRepository
 ):ViewModel() {
-    private val _transcript = MutableStateFlow<Transcript?>(null)
-    val transcript:StateFlow<Transcript?> =_transcript
+    private val _transcriptList = MutableStateFlow<List<Transcript>?>(emptyList())
+    val transcriptList : StateFlow<List<Transcript>?> =_transcriptList
 
     fun transcriptGetByStudentId( studentId:Int ){
         viewModelScope.launch {
             try {
-                _transcript.value = transcriptRepository.transcriptGetByStudentId(studentId)
+
+                _transcriptList.value = transcriptRepository.transcriptGetByStudentId(studentId)
+
             }catch (e:Exception){
                 e.printStackTrace()
             }

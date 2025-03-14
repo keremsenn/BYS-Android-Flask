@@ -7,5 +7,5 @@ import retrofit2.http.Query
 interface TranscriptApi {
 
     @GET("transcript/id")
-    suspend fun transcriptGetByStudentId(@Query("studentId") studentId:Int ):Transcript
+    suspend fun transcriptGetByStudentId(@Query("id") studentId:Int ):List<Transcript>?
 }
