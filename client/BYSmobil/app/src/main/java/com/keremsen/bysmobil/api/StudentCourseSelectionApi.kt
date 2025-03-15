@@ -1,6 +1,7 @@
 package com.keremsen.bysmobil.api
 
 import com.keremsen.bysmobil.model.ApproveRequest
+import com.keremsen.bysmobil.model.CourseSelectionAdd
 import com.keremsen.bysmobil.model.StudentCourseSelection
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,12 +13,18 @@ interface StudentCourseSelectionApi {
     suspend fun courseSelectionGetById(@Query("id") id:Int):StudentCourseSelection
 
     @GET("selection/student_id")
-    suspend fun courseSelectionGetByStudentId(@Query("studentId") studentId:Int):List<StudentCourseSelection>
+    suspend fun courseSelectionGetByStudentId(@Query("id") studentId:Int):List<StudentCourseSelection>
 
     @GET("selection/course_id")
-    suspend fun courseSelectionGetByCoursetId(@Query("courseId") courseId:Int):List<StudentCourseSelection>
+    suspend fun courseSelectionGetByCoursetId(@Query("id") courseId:Int):List<StudentCourseSelection>
 
     @POST("selection/update_approve")
     suspend fun courseSelectionUpdateApprove(@Body aproveRequest: ApproveRequest):StudentCourseSelection
+
+    @POST("selection/add")
+    suspend fun courseSelectionAdd(@Body courseSelectionAdd: CourseSelectionAdd)
+
+    @POST("selection/delete")
+    suspend fun courseSelectionDelete(@Body id:Int)
 
 }
