@@ -4,6 +4,7 @@ import com.keremsen.bysmobil.model.ApproveRequest
 import com.keremsen.bysmobil.model.CourseSelectionAdd
 import com.keremsen.bysmobil.model.StudentCourseSelection
 import retrofit2.http.Body
+import retrofit2.http.DELETE
 import retrofit2.http.GET
 import retrofit2.http.POST
 import retrofit2.http.Query
@@ -24,7 +25,7 @@ interface StudentCourseSelectionApi {
     @POST("selection/add")
     suspend fun courseSelectionAdd(@Body courseSelectionAdd: CourseSelectionAdd)
 
-    @POST("selection/delete")
-    suspend fun courseSelectionDelete(@Body id:Int)
+    @DELETE("selection/delete")
+    suspend fun courseSelectionDelete(@Query("id") id:Int)
 
 }
