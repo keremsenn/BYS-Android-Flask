@@ -14,11 +14,12 @@ class StudentCourseSelectionService:
 
     @staticmethod
     def get_by_student_id(student_id):
-        student_courses_query = StudentCourseSelection.query.filter(StudentCourseSelection.studentId == student_id).all()
+        student_courses_query = StudentCourseSelection.query.filter(
+            StudentCourseSelection.studentId == student_id).all()
+        if not student_courses_query:
+            return student_courses_query
         schema = StudentCourseSelectionSchema(many = True)
         student_courses = schema.dump(student_courses_query)
-        if not student_courses:
-            raise NotFound(f"Student with id {student_id} not found")
         return student_courses
 
     @staticmethod
@@ -44,7 +45,7 @@ class StudentCourseSelectionService:
 
     @staticmethod
     def delete_by_selection_id(selection_id):
-        selection = StudentCourseSelection.query.filter_by(id=selection_id).first()
+        selection = StudentCourseSelection.query.filter_by(courseId=selection_id).first()
 
         if not selection:
             return {"error": f"Selection not found by id: {selection_id}"}
