@@ -8,6 +8,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.keremsen.bysmobil.view.LoginPage
 import com.keremsen.bysmobil.view.MainPage
+import com.keremsen.bysmobil.view.TranscriptPage
 
 
 @Composable
@@ -30,6 +31,14 @@ fun NavScreen() {
         }
         composable("loginPage") {
             LoginPage(navController)
+        }
+        composable("transcript/{studentId}",
+            arguments = listOf(
+                navArgument("studentId"){ type = NavType.IntType }
+            )
+        ) { backStackEntry ->
+            val studentId = backStackEntry.arguments?.getInt("studentId")!!.toInt()
+            TranscriptPage(navController,studentId )
         }
     }
 
