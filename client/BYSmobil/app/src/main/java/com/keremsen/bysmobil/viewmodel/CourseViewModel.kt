@@ -17,8 +17,8 @@ class CourseViewModel @Inject constructor(
     private val _course = MutableStateFlow<Course?>(null)
     val course:StateFlow<Course?> = _course
 
-    private val _courseList = MutableStateFlow<List<Course>?>(null)
-    val courseList:StateFlow<List<Course>?> = _courseList
+    private val _courseList = MutableStateFlow<List<Course>>(emptyList())
+    val courseList:StateFlow<List<Course>> = _courseList
 
     fun courseGetById(id:Int){
         viewModelScope.launch {
