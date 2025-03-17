@@ -12,7 +12,7 @@ class TranscriptRepository @Inject constructor(
     private val context: Context
 ) {
 
-    suspend fun transcriptGetByStudentId( studentId:Int ): List<Transcript>?{
+    suspend fun transcriptGetByStudentId( studentId:Int ): List<Transcript>{
         return transcriptApi.transcriptGetByStudentId(studentId)
     }
 }

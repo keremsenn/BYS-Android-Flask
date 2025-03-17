@@ -15,8 +15,8 @@ import javax.inject.Inject
 class TranscriptViewModel @Inject constructor(
     private val transcriptRepository: TranscriptRepository
 ):ViewModel() {
-    private val _transcriptList = MutableStateFlow<List<Transcript>?>(emptyList())
-    val transcriptList : StateFlow<List<Transcript>?> =_transcriptList
+    private val _transcriptList = MutableStateFlow<List<Transcript>>(emptyList())
+    val transcriptList : StateFlow<List<Transcript>> =_transcriptList
 
     fun transcriptGetByStudentId( studentId:Int ){
         viewModelScope.launch {
