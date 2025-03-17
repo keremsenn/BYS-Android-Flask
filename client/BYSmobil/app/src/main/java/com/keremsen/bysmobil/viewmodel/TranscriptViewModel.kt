@@ -3,7 +3,6 @@ package com.keremsen.bysmobil.viewmodel
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keremsen.bysmobil.model.Transcript
-import com.keremsen.bysmobil.repository.StudentCourseSelectionRepository
 import com.keremsen.bysmobil.repository.TranscriptRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

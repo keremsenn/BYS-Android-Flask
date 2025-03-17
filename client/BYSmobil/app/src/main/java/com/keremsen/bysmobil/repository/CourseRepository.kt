@@ -3,8 +3,6 @@ package com.keremsen.bysmobil.repository
 import android.content.Context
 import com.keremsen.bysmobil.api.CourseApi
 import com.keremsen.bysmobil.model.Course
-import retrofit2.http.GET
-import retrofit2.http.Query
 import javax.inject.Inject
 
 class CourseRepository @Inject constructor(

@@ -5,10 +5,6 @@ import com.keremsen.bysmobil.api.StudentCourseSelectionApi
 import com.keremsen.bysmobil.model.ApproveRequest
 import com.keremsen.bysmobil.model.CourseSelectionAdd
 import com.keremsen.bysmobil.model.StudentCourseSelection
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
 import javax.inject.Inject
 
 class StudentCourseSelectionRepository @Inject constructor(
