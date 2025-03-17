@@ -1,5 +1,6 @@
 package com.keremsen.bysmobil.viewmodel
 
+
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.keremsen.bysmobil.model.Course
@@ -24,6 +25,7 @@ class CourseViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 _course.value = courseRepository.courserGetById(id)
+
             }catch (e:Exception){
                 e.printStackTrace()
             }

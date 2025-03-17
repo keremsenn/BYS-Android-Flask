@@ -20,8 +20,8 @@ class StudentViewModel @Inject constructor(
     private val _student = MutableStateFlow<Student?>(null)
     val student: StateFlow<Student?> = _student
 
-    private val _studentList = MutableStateFlow<List<Student?>>(emptyList())
-    val studentList: StateFlow<List<Student?>> = _studentList
+    private val _studentList = MutableStateFlow<List<Student>>(emptyList())
+    val studentList: StateFlow<List<Student>> = _studentList
 
     private val _advisorStudents = MutableStateFlow<List<Student?>>(emptyList())
     val advisorStudents: StateFlow<List<Student?>> = _advisorStudents
