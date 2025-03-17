@@ -1,5 +1,6 @@
 package com.keremsen.bysmobil.view
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,14 +19,12 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
@@ -36,10 +35,9 @@ import com.keremsen.bysmobil.ui.theme.Blue
 import com.keremsen.bysmobil.ui.theme.LightBlue
 import androidx.compose.animation.Crossfade
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -47,8 +45,7 @@ import androidx.navigation.NavController
 import com.keremsen.bysmobil.model.LoginRequest
 import com.keremsen.bysmobil.viewmodel.UserAdvisorViewModel
 import com.keremsen.bysmobil.viewmodel.UserStudentViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.runBlocking
+
 
 
 @Composable
@@ -59,31 +56,61 @@ fun LoginPage(navController: NavController) {
     val userStudent = userStudentViewModel.userStudent.collectAsState()
     val userAdvisor = userAdvisorViewModel.userAdvisor.collectAsState()
 
-    var Email = remember { mutableStateOf("") }
-    var Password = remember { mutableStateOf("") }
+    val Email = remember { mutableStateOf("") }
+    val Password = remember { mutableStateOf("") }
     var isStudent by remember { mutableStateOf(true) }
 
-    var studentId by remember { mutableStateOf(0) }
-    var advisorId by remember { mutableStateOf(0) }
+    var studentId by remember { mutableIntStateOf(0) }
+    var advisorId by remember { mutableIntStateOf(0) }
 
+    val context = LocalContext.current
+    var triggerLoginStudent by remember { mutableIntStateOf(0) }
+    var triggerLoginAdvisor by remember { mutableIntStateOf(0) }
 
-    LaunchedEffect(userStudent.value) {
+    LaunchedEffect(userStudent.value,triggerLoginStudent) {
         userStudent.value?.let { student ->
-            studentId = student.relatedId.toInt()
-            navController.navigate("main/${isStudent}/${studentId}/${advisorId}") {
-                popUpTo("loginPage") { inclusive = true }
+            try {
+                val id = student.relatedId.toIntOrNull() ?: -1
+                studentId = id
+                if(studentId != -1){
+                    navController.navigate("main/${isStudent}/${studentId}/${advisorId}") {
+                        popUpTo("loginPage") { inclusive = true }
+                    }
+                }else{
+                    Toast.makeText(
+                        context,
+                        "You have entered the wrong email or password. Please try again..",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+
+            } catch (e: Exception) {
+                Log.e("LoginPage", "${e.message}")
             }
         }
-
     }
-    LaunchedEffect(userAdvisor.value) {
+
+
+    LaunchedEffect(userAdvisor.value,triggerLoginAdvisor) {
         userAdvisor.value?.let { advisor ->
-            advisorId = advisor.relatedId.toInt()
-            navController.navigate("main/${isStudent}/${studentId}/${advisorId}") {
-                popUpTo("loginPage") { inclusive = true }
+            try {
+                val id = advisor.relatedId.toIntOrNull() ?: -1
+                advisorId = id
+                if(advisorId != -1) {
+                    navController.navigate("main/${isStudent}/${studentId}/${advisorId}") {
+                        popUpTo("loginPage") { inclusive = true }
+                    }
+                }else{
+                    Toast.makeText(
+                        context,
+                        "You have entered the wrong email or password. Please try again..",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            } catch (e: Exception) {
+                Log.e("LoginPage", "${e.message}")
             }
         }
-
     }
 
     Surface(
@@ -140,7 +167,7 @@ fun LoginPage(navController: NavController) {
             Crossfade(
                 targetState = isStudent,
                 modifier = Modifier.size(170.dp),
-                animationSpec = tween(durationMillis = 1000)
+                animationSpec = tween(durationMillis = 1000), label = ""
             ) { targetState ->
                 when (targetState) {
                     true -> Image(
@@ -185,17 +212,16 @@ fun LoginPage(navController: NavController) {
             )
             Spacer(modifier = Modifier.size(20.dp))
 
-            // Hata mesajını göster
-
 
             Button(
                 onClick = {
-                    //alp123@ogr.ktu.edu.tr
-                    //alp12345
+
                     val loginRequest = LoginRequest(email = Email.value, password = Password.value)
                     if (isStudent) {
+                        triggerLoginStudent++
                         userStudentViewModel.login(loginRequest)
                     } else {
+                        triggerLoginAdvisor++
                         userAdvisorViewModel.advisorLogin(loginRequest)
                     }
 
