@@ -3,6 +3,7 @@ package com.keremsen.bysmobil.repository
 import android.content.Context
 import com.keremsen.bysmobil.api.StudentCourseSelectionApi
 import com.keremsen.bysmobil.model.ApproveRequest
+import com.keremsen.bysmobil.model.CourseSelectionAdd
 import com.keremsen.bysmobil.model.StudentCourseSelection
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -26,5 +27,11 @@ class StudentCourseSelectionRepository @Inject constructor(
     }
     suspend fun courseSelectionUpdateApprove( aproveRequest: ApproveRequest): StudentCourseSelection{
         return studentCourseSelectionApi.courseSelectionUpdateApprove(aproveRequest)
+    }
+    suspend fun courseSelectionAdd(courseSelectionAdd: CourseSelectionAdd){
+         studentCourseSelectionApi.courseSelectionAdd(courseSelectionAdd)
+    }
+    suspend fun courseSelectionDelete(id:Int){
+        studentCourseSelectionApi.courseSelectionDelete(id)
     }
 }
